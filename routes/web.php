@@ -27,3 +27,23 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::get('/Jorge', function () {
+    return Inertia::render('Jorge');
+})->name('jorge');
+
+Route::get('/Elena', function () {
+    return Inertia::render('Elena');
+})->name('elena');
+
+Route::get('/Yazmin', function () {
+    return Inertia::render('Yamin');
+})->name('yazmin');
+
+Route::get('/Mariana', function () {
+    return Inertia::render('Mariana');
+})->name('mariana');
+
+Route::get('/Yamil', function () {
+    return Inertia::render('Yamil');
+})->name('yamil');
