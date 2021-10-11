@@ -47,3 +47,15 @@ Route::get('/Mariana', function () {
 Route::get('/Yamil', function () {
     return Inertia::render('Yamil');
 })->name('yamil');
+
+Route::get('/Login', function () {
+    return Inertia::render('Login');
+})->name('login');
+
+Route::get('/Dashboard', function () {
+    return Inertia::render('EpDashboard');
+})->name('jorge');
+
+Route::get('/EncuestasPropuestas', function () {
+    return Inertia::render('EncuestasPropuestas');
+})->name('encprop');
