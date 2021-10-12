@@ -12,10 +12,10 @@
         data() {
             return{
                 elementos:[
-                    {id: 1, nombre: 'DASHBOARD', icono: 'dashboard', accion:'/dashboard'},
-                    {id: 2, nombre: 'EVALUACIONES', icono: 'data_usage', accion:'/evaluaciones'},
-                    {id: 3, nombre: 'ENCUESTAS Y PROPUESTAS', icono: 'list_alt', accion:'/encyprop'},
-                    {id: 4, nombre: 'SALIR', icono: 'logout', accion:'/logout'}
+                    {id: 1, nombre: 'DASHBOARD', icono: 'dashboard', ruta:'dashboard', tipo:'get'},
+                    {id: 2, nombre: 'EVALUACIONES', icono: 'data_usage', ruta:'evaluaciones', tipo:'get'},
+                    {id: 3, nombre: 'ENCUESTAS Y PROPUESTAS', icono: 'list_alt', ruta:'encyprop', tipo:'get'},
+                    {id: 4, nombre: 'SALIR', icono: 'logout', ruta:'logout', tipo:'post'}
                 ]
             }
         }

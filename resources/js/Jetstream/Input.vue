@@ -1,5 +1,5 @@
 <template>
-    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
+    <input style="width: 320px; height: 35px;border: 0.2px solid #131212;box-sizing: border-box;border-radius: 5px; font-family: Roboto;font-size: 16px;" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
 </template>
 
 <script>

@@ -5,7 +5,7 @@
         </div>
         <div style="display: flex; width: 210px; min-width: 210px; flex-direction: column;" v-show="showMenu">
             <div style="display: flex; padding: 40px; flex-direction: column">
-                <ep-perfil/>
+                <ep-perfil :usuario="usuario"/>
                 <div style="margin-top: 60px">
                     <ep-menu/>
                 </div>
@@ -30,6 +30,9 @@
             EpTop,
             EpPerfil
         },
+        props:[
+            'usuario'
+        ],
         methods:{
             SwitchMenu: function(){
                 if(this.showMenu){

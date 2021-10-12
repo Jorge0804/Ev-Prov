@@ -15,18 +15,18 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+});*/
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard2', function () {
     return Inertia::render('Dashboard');
-})->name('dashboard');
+})->name('dashboard2');
 
 Route::get('/Jorge', function () {
     return Inertia::render('Jorge');
@@ -48,13 +48,14 @@ Route::get('/Yamil', function () {
     return Inertia::render('Yamil');
 })->name('yamil');
 
-Route::get('/Login', function () {
+Route::get('/login', function () {
     return Inertia::render('Login');
 })->name('login');
 
-Route::get('/Dashboard', function () {
-    return Inertia::render('EpDashboard');
-})->name('jorge');
+Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
+    $usuario = Auth::user();
+    return Inertia::render('EpDashboard', compact('usuario'));
+})->name('dashboard');
 
 Route::get('/EncuestasPropuestas', function () {
     return Inertia::render('EncuestasPropuestas');

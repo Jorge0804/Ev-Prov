@@ -3,7 +3,9 @@
 </template>
 
 <script>
+    import Input from "../../../Jetstream/Input";
     export default{
+        components: {Input},
         props:[
             'tipo'
         ]
