@@ -35,6 +35,10 @@ Route::get('/Factores', function (){
     return Models\factores::all();
 });
 
+Route::get('/Valores', function (){
+    return Models\valores::all();
+});
+
 Route::get('/Evaluaciones', function (){
     return Models\evaluaciones::with('factores')->get();
 });

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard2', function () 
 })->name('dashboard2');
 
 Route::get('/Jorge', function () {
-    return Inertia::render('Jorge');
+    $usuario = Auth::user();
+    $factores = Models\factores::all();
+    $valores = Models\valores::all();
+
+    return Inertia::render('Jorge', compact('usuario', 'factores', 'valores'));
 })->name('jorge');
 
 Route::get('/Elena', function () {
@@ -62,12 +67,21 @@ Route::get('/EncuestasPropuestas', function () {
     return Inertia::render('EncuestasPropuestas');
 })->name('encprop');
 
-Route::get('/LoginGET/{id}/{token}', function(Request $request){
+Route::get('/v1/Login/Encuesta/{id}/{token}', function(Request $request){
    $user = \App\Models\User::where('id', $request->id)->first();
    if($user && ($user->password == $request->token)){
        \Illuminate\Support\Facades\Auth::login($user);
-       return redirect()->route('dashboard');
+
+       return redirect()->route('encuesta');
    } else{
        return 'no';
    }
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta', function () {
+    $usuario = Auth::user();
+    $factores = Models\factores::all();
+    $valores = Models\valores::all();
+
+    return Inertia::render('Jorge', compact('usuario', 'factores', 'valores'));
+})->name('encuesta');
