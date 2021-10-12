@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
 Route::get('/EncuestasPropuestas', function () {
     return Inertia::render('EncuestasPropuestas');
 })->name('encprop');
+
+Route::get('/LoginGET/{id}/{token}', function(Request $request){
+   $user = \App\Models\User::where('id', $request->id)->first();
+   if($user && ($user->password == $request->token)){
+       \Illuminate\Support\Facades\Auth::login($user);
+       return redirect()->route('dashboard');
+   } else{
+       return 'no';
+   }
+});
