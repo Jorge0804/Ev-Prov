@@ -72,7 +72,7 @@ Route::get('/v1/Login/Encuesta/{id_encuesta}/{id}/{token}', function(Request $re
    if($user && ($user->password ==  urldecode($request->token))){
        \Illuminate\Support\Facades\Auth::login($user);
 
-       return redirect()->route('encuesta');
+       return redirect()->route('encuesta', $request->id_encuesta);
    } else{
        return urldecode($request->token);
    }
@@ -90,7 +90,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta/{id_encuesta}', 
         return Inertia::render('Encuesta', compact('usuario', 'factores', 'valores', 'encuesta', 'area'));
         //return Models\ordenes::where('id_proveedor', $encuesta->id_proveedor)->where('id_periodo', $encuesta->id_periodo)->with('area')->get();
     }else{
-
+        return 'no se pudo :C ';
     }
 
 })->name('encuesta');
