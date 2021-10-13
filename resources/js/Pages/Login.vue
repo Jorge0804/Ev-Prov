@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen" style="background-color: #E9E2E2; display: flex; font-family: Roboto">
-        <div style="background-color: green;">
+        <div style="background-color: green;" v-show="showImage">
             <img src="../../imagenes/fondo_login.jpeg" style="height: auto; max-height: 100%">
         </div>
         <div style="flex: auto; display: flex; flex-direction: column">
@@ -106,17 +106,20 @@ export default{
         canResetPassword: Boolean,
         status: String
     },
-
+    created() {
+        this.showImage = (document.documentElement.clientWidth > 850)?true:false;
+        window.addEventListener("resize", this.CambioResolución);
+    },
     data() {
         return {
             form: this.$inertia.form({
                 email: '',
                 password: '',
                 remember: false
-            })
+            }),
+            showImage:true
         }
     },
-
     methods: {
         submit() {
             this.form
@@ -127,6 +130,9 @@ export default{
                 .post(this.route('login'), {
                     onFinish: () => this.form.reset('password'),
                 })
+        },
+        CambioResolución(e) {
+            this.showImage = (document.documentElement.clientWidth > 850)?true:false;
         }
     }
 }

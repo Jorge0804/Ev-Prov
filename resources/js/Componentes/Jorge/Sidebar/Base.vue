@@ -20,6 +20,9 @@
     import EpMenu from './Menu';
 
     export default{
+        created() {
+          this.showMenu = (document.documentElement.clientWidth > 850)?true:false;
+        },
         data(){
             return {
                 showMenu:true
