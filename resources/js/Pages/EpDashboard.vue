@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen" style="display: flex; font-family: Roboto">
+    <div style="min-height: min-content;display: flex; font-family: Roboto;">
         <ep-sidebar :usuario="usuario"/>
         <div style="flex: auto; display: flex; flex-direction: column; min-height: min-content; padding-left: 50px; padding-right: 50px; padding-top: 40px">
             <ep-card-titulo imagen="dash_image.png">
