@@ -67,21 +67,34 @@ Route::get('/EncuestasPropuestas', function () {
     return Inertia::render('EncuestasPropuestas');
 })->name('encprop');
 
-Route::get('/v1/Login/Encuesta/{id}/{token}', function(Request $request){
+Route::get('/v1/Login/Encuesta/{id_encuesta}/{id}/{token}', function(Request $request){
    $user = \App\Models\User::where('id', $request->id)->first();
-   if($user && ($user->password == $request->token)){
+   if($user && ($user->password ==  urldecode($request->token))){
        \Illuminate\Support\Facades\Auth::login($user);
 
-       return redirect()->route('encuesta');
+       return redirect()->route('encuesta')->with(['encuesta']);
    } else{
-       return 'no';
+       return urldecode($request->token);
    }
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta', function () {
-    $usuario = Auth::user();
-    $factores = Models\factores::all();
-    $valores = Models\valores::all();
+Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta/{id_encuesta}', function (Request $request) {
+    $encuesta = Models\encuestas::find($request->id_encuesta);
+    if($encuesta){
+        $usuario = Auth::user();
+        $area = Models\areas::where('id_user', $usuario->id)->first();
+        $factores = Models\factores::all();
+        $valores = Models\valores::all();
+        $encuesta = Models\encuestas::with('periodo')->with('proveedor')->find($request->id_encuesta);
 
-    return Inertia::render('Jorge', compact('usuario', 'factores', 'valores'));
+        return Inertia::render('Encuesta', compact('usuario', 'factores', 'valores', 'encuesta', 'area'));
+        //return Models\ordenes::where('id_proveedor', $encuesta->id_proveedor)->where('id_periodo', $encuesta->id_periodo)->with('area')->get();
+    }else{
+
+    }
+
+})->name('encuesta');
+
+Route::middleware(['auth:sanctum', 'verified'])->post('/GuardarRespuesta', function (Request $request) {
+    return Models\evaluaciones::where('id_encuesta', $request->id_encuesta)->get();
 })->name('encuesta');

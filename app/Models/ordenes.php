@@ -18,6 +18,6 @@ class ordenes extends Model
     }
 
     function area(){
-        return $this->hasOne(areas::class, 'id_area', 'id_area');
+        return $this->hasOne(areas::class, 'id_area', 'id_area')->with('user')->with('contacto');
     }
 }

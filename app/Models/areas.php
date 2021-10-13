@@ -12,4 +12,8 @@ class areas extends Model
     function contacto(){
         return $this->hasOne(contactos::class, 'id_contacto', 'id_contacto');
     }
+
+    function user(){
+        return $this->hasOne(User::class, 'id', 'id_user');
+    }
 }
