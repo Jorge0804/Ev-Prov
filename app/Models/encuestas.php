@@ -10,6 +10,7 @@ class encuestas extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_encuesta';
+    public $timestamps = false;
 
     function periodo(){
         return $this->hasOne(periodos::class, 'id_periodo', 'id_periodo');

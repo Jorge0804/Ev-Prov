@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,71 +31,19 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard2', function () 
     return Inertia::render('Dashboard');
 })->name('dashboard2');
 
-Route::get('/Jorge', function () {
-    $usuario = Auth::user();
-    $factores = Models\factores::all();
-    $valores = Models\valores::all();
+Route::get('/Jorge', [Controller::class, 'Jorge'])->name('jorge');
 
-    return Inertia::render('Jorge', compact('usuario', 'factores', 'valores'));
-})->name('jorge');
+//Rutas para Login
+Route::get('/login', [Controller::class, 'ViewLogin'])->name('login');
+Route::get('/v1/Login/Encuesta/{id_evaluacion}/{id}/{token}', [Controller::class, 'ProcesarLoginEncuesta']);
 
-Route::get('/Elena', function () {
-    return Inertia::render('Elena');
-})->name('elena');
+//Rutas para vistas
+Route::middleware(['auth:sanctum', 'verified'])->get('/', [Controller::class, 'ViewDashboard'])->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta/{id_evaluacion}', [Controller::class, 'ViewEncuesta'])->name('encuesta');
 
-Route::get('/Yazmin', function () {
-    return Inertia::render('Yamin');
-})->name('yazmin');
+//Mensajes
+Route::middleware(['auth:sanctum', 'verified'])->get('/Success', [Controller::class, 'MostrarExito'])->name('mostrarExito');
 
-Route::get('/Mariana', function () {
-    return Inertia::render('Mariana');
-})->name('mariana');
-
-Route::get('/Yamil', function () {
-    return Inertia::render('Yamil');
-})->name('yamil');
-
-Route::get('/login', function () {
-    return Inertia::render('Login');
-})->name('login');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-    $usuario = Auth::user();
-    return Inertia::render('EpDashboard', compact('usuario'));
-})->name('dashboard');
-
-Route::get('/EncuestasPropuestas', function () {
-    return Inertia::render('EncuestasPropuestas');
-})->name('encprop');
-
-Route::get('/v1/Login/Encuesta/{id_encuesta}/{id}/{token}', function(Request $request){
-   $user = \App\Models\User::where('id', $request->id)->first();
-   if($user && ($user->password ==  urldecode($request->token))){
-       \Illuminate\Support\Facades\Auth::login($user);
-
-       return redirect()->route('encuesta', $request->id_encuesta);
-   } else{
-       return urldecode($request->token);
-   }
-});
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta/{id_encuesta}', function (Request $request) {
-    $encuesta = Models\encuestas::find($request->id_encuesta);
-    if($encuesta){
-        $usuario = Auth::user();
-        $area = Models\areas::where('id_user', $usuario->id)->first();
-        $factores = Models\factores::all();
-        $valores = Models\valores::all();
-        $encuesta = Models\encuestas::with('periodo')->with('proveedor')->find($request->id_encuesta);
-
-        return Inertia::render('Encuesta', compact('usuario', 'factores', 'valores', 'encuesta', 'area'));
-        //return Models\ordenes::where('id_proveedor', $encuesta->id_proveedor)->where('id_periodo', $encuesta->id_periodo)->with('area')->get();
-    }else{
-        return 'no se pudo :C ';
-    }
-
-})->name('encuesta');
-
-Route::middleware(['auth:sanctum', 'verified'])->post('/GuardarRespuesta', function (Request $request) {
-    return Models\evaluaciones::where('id_encuesta', $request->id_encuesta)->get();
-})->name('guardarRespuesta');
+//Encuestas
+Route::middleware(['auth:sanctum', 'verified'])->post('/GuardarRespuesta', [Controller::class, 'GuardarRespuesta'])->name('guardarRespuesta');
+Route::middleware(['auth:sanctum', 'verified'])->post('/FinalizarEncuesta', [Controller::class, 'FinalizarEncuesta'])->name('finalizarEncuesta');

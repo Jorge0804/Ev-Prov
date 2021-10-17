@@ -9,6 +9,8 @@ class areas extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_area';
+
     function contacto(){
         return $this->hasOne(contactos::class, 'id_contacto', 'id_contacto');
     }

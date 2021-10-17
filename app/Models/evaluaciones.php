@@ -9,6 +9,9 @@ class evaluaciones extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_evaluacion';
+    public $timestamps = false;
+
     function factores(){
         return $this->belongsToMany(factores::class, 'detalles_evaluacion','id_factor', 'id_evaluacion');
     }

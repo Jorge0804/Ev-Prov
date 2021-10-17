@@ -9,6 +9,8 @@ class proveedores extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_proveedor';
+
     function contacto(){
         return $this->hasOne(contactos::class, 'id_contacto', 'id_contacto');
     }

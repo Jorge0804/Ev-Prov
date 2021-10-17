@@ -1,5 +1,5 @@
 <template>
-    <div style="min-height: min-content; display: flex; font-family: Roboto;">
+    <div style="min-height: min-content; display: flex; font-family: Roboto;"   >
         <ep-sidebar :usuario="usuario"/>
         <div style="flex: auto; display: flex; flex-direction: column; min-height: min-content; padding-left: 50px; padding-right: 50px; padding-top: 40px">
             <ep-card-titulo imagen="encyprov.png" style="margin-bottom: 30px">
@@ -24,7 +24,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <ep-boton style="width: 200px">
+                <ep-boton style="width: 200px" @click="Finalizar">
                     Enviar encuesta
                 </ep-boton>
             </div>
@@ -45,7 +45,8 @@ export default{
         'factores',
         'valores',
         'encuesta',
-        'area'
+        'area',
+        'id_evaluacion'
     ],
     components:{
         EpCardTitulo,
@@ -56,13 +57,25 @@ export default{
     },
     methods:{
         GuardarRespuesta: function (id_factor, id_valor) {
-            console.log(id_factor+' '+id_valor);
             axios.post('/GuardarRespuesta', {
-                id_encuesta: this.encuesta.id_encuesta,
-                id_area: this.area.id_area
+                id_evaluacion: this.id_evaluacion,
+                id_valor: id_valor,
+                id_factor: id_factor
             })
             .then(function(response){
                 console.log(response.data);
+            });
+        },
+        Finalizar: function(){
+            axios.post('/FinalizarEncuesta', {
+                id_evaluacion: this.id_evaluacion
+            })
+            .then(function(response){
+                if (response.data.codigo == 0){
+                    alert(response.data.mensaje);
+                } else{
+                    window.location = response.data.ruta;
+                }
             });
         }
     }

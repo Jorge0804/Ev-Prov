@@ -10,6 +10,8 @@ class detalles_evaluacion extends Model
     use HasFactory;
 
     protected $table = 'detalles_evaluacion';
+    public $timestamps = false;
+    protected $primaryKey = 'id_detalle';
 
     function evaluacion(){
         return $this->hasOne(evaluaciones::class, 'id_evaluacion', 'id_evaluacion')->with('area');

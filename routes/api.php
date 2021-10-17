@@ -19,6 +19,54 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Ruta para Ordenes
+Route::get('/v1/GenerarOrden/{id_proveedor}/{id_periodo}/{id_area}', function(Request $request){
+    $proveedor = Models\proveedores::find($request->id_proveedor);
+    $periodo = Models\periodos::find($request->id_periodo);
+    $area = Models\areas::find($request->id_area);
+
+    if($proveedor && $periodo && $area){
+        $encuesta = Models\encuestas::where('id_proveedor', $proveedor->id_proveedor)->where('id_periodo', $periodo->id_periodo)->first();
+        if(!$encuesta){
+            $encuesta = new Models\encuestas();
+            $encuesta->id_proveedor = $proveedor->id_proveedor;
+            $encuesta->id_periodo = $periodo->id_periodo;
+            $encuesta->save();
+        }
+
+        $evaluacion = Models\evaluaciones::where('id_encuesta', $encuesta->id_encuesta)->where('id_area', $area->id_area)->first();
+        if(!$evaluacion){
+            $evaluacion = new Models\evaluaciones();
+            $evaluacion->id_encuesta = $encuesta->id_encuesta;
+            $evaluacion->id_area = $area->id_area;
+
+            $evaluacion->save();
+        }
+
+        $orden = new Models\ordenes();
+        $orden->id_periodo = $periodo->id_periodo;
+        $orden->id_proveedor = $proveedor->id_proveedor;
+        $orden->id_area = $area->id_area;
+        $orden->fecha_hora = date('Y-m-d H:i:s');
+        $orden->save();
+
+        return [
+            'mensaje'=>'Registro exitoso',
+            'Registros'=>Models\ordenes::all()
+        ];
+    } else{
+        return [
+            'Mensaje' => 'Por favor compruebe que el id enviado exista',
+            'Registros' => [
+                'proveedores' => Models\proveedores::select('id_proveedor', 'razo_social')->get(),
+                'periodos' => Models\periodos::all(),
+                'areas' => Models\areas::select('id_area', 'nombre')->get()
+            ]
+        ];
+    }
+});
+
+//Rutas para probar consultas
 Route::get('/Proveedores', function (){
     return Models\proveedores::with('contacto')->get();
 });

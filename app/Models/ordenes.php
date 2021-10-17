@@ -9,6 +9,8 @@ class ordenes extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     function proveedor(){
         return $this->hasOne(proveedores::class, 'id_proveedor', 'id_proveedor');
     }
