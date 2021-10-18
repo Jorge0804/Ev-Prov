@@ -3,7 +3,7 @@
         <ep-sidebar :usuario="usuario"/>
         <div style="flex: auto; display: flex; flex-direction: column; min-height: min-content; padding-left: 50px; padding-right: 50px; padding-top: 40px">
             <ep-card-titulo imagen="encyprov.png" style="margin-bottom: 30px">
-                <template v-slot:titulo>Evaluaciones</template>
+                <template v-slot:titulo>Enlaces</template>
                 <template v-slot:descripcion>En este apartado se mostrarán todas las evaluaciones por proveedor del periodo actual.</template>
             </ep-card-titulo>
             <ep-table :titulos="titulos" :rows="rows"/>

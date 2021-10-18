@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen" style="display: flex; font-family: Roboto">
+    <div class="h-screen" style="min-height: 100vh; display: flex; font-family: Roboto">
         <ep-sidebar :usuario="usuario"/>
         <div style="flex: auto; display: flex; flex-direction: column; min-height: min-content; padding-left: 50px; padding-right: 50px; padding-top: 40px">
             <ep-card-titulo imagen="encyprov.png">

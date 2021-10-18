@@ -41,6 +41,13 @@ Route::get('/v1/GenerarOrden/{id_proveedor}/{id_periodo}/{id_area}', function(Re
             $evaluacion->id_area = $area->id_area;
 
             $evaluacion->save();
+
+            $user = Models\User::find($area->id_user);
+
+            $enlace = new Models\enlaces();
+            $enlace->ruta = 'http://evprov.ga/v1/Login/Encuesta/'.$evaluacion->id_evaluacion.'/'.$user->id.'/'.urlencode(urlencode($user->password));
+            $enlace->id_evaluacion = $evaluacion->id_evaluacion;
+            $enlace->save();
         }
 
         $orden = new Models\ordenes();
@@ -50,8 +57,11 @@ Route::get('/v1/GenerarOrden/{id_proveedor}/{id_periodo}/{id_area}', function(Re
         $orden->fecha_hora = date('Y-m-d H:i:s');
         $orden->save();
 
+        $enlace = Models\enlaces::where('id_evaluacion', $evaluacion->id_evaluacion)->first();
+
         return [
             'mensaje'=>'Registro exitoso',
+            'enlace' => $enlace->ruta,
             'Registros'=>Models\ordenes::all()
         ];
     } else{
@@ -95,6 +105,10 @@ Route::get('/Detalles', function (){
     return Models\detalles_evaluacion::with('evaluacion')->with('factor')->with('valor')->get();
 });
 
-    Route::get('/EvaluacionesProveedores', function (){
+Route::get('/EvaluacionesProveedores', function (){
     return Models\encuestas::with('proveedor')->with('evaluaciones')->get();
+});
+
+Route::get('/Enlaces', function (){
+    return Models\enlaces::with('evaluacion')->get();
 });

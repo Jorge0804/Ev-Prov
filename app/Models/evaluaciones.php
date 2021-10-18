@@ -26,6 +26,6 @@ class evaluaciones extends Model
     }
 
     function encuesta(){
-        return $this->hasOne(encuestas::class, 'id_encuesta', 'id_encuesta')->with('proveedor');
+        return $this->hasOne(encuestas::class, 'id_encuesta', 'id_encuesta')->with('proveedor')->with('periodo');
     }
 }

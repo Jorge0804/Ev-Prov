@@ -72,9 +72,9 @@ class Controller extends BaseController
     }
     function ViewEvaluaciones(){
         $usuario = Auth::user();
-        $encuestas = Models\encuestas::with('proveedor')->with('evaluaciones')->get();
+        $encuestas = Models\encuestas::with('proveedor')->with('evaluaciones')->with('periodo')->get();
 
-        $titulos = ['Proveedor', 'Total evaluaciones', 'Pendientes', 'Finalizadas', 'Porcentaje actual', ' '];
+        $titulos = ['Proveedor', 'Total evaluaciones', 'Pendientes', 'Finalizadas', 'Porcentaje', 'Periodo', ' '];
         $rows = [];
 
         foreach ($encuestas as $encuesta){
@@ -94,11 +94,11 @@ class Controller extends BaseController
 
                     $sum_porcentaje += ($evaluacion->resultado)?$evaluacion->resultado:0;
                 }
-                $porcentaje = ($sum_porcentaje/$total).'%';
+                $porcentaje = ($finalizadas>0)?($sum_porcentaje/$finalizadas).'%':'0%';
             }
 
             $row['color'] = '#DDEDEE';
-            $row['campos'] = [$encuesta['proveedor']->razo_social, $total, $pendientes, $finalizadas, $porcentaje];
+            $row['campos'] = [$encuesta['proveedor']->razo_social, $total, $pendientes, $finalizadas, $porcentaje, $encuesta['periodo']->fecha_inicio.' al '.$encuesta['periodo']->fecha_fin];
             $row['acciones'] = [
                 [
                     'icono' => 'visibility',
@@ -124,6 +124,25 @@ class Controller extends BaseController
         $usuario = Auth::user();
 
         return Inertia::render('EncuestasPropuestas', compact('usuario'));
+    }
+    function ViewEnlaces(){
+        $usuario = Auth::user();
+        $enlaces = Models\enlaces::with('evaluacion')->get();
+
+        $titulos = ['Enlace', 'Area', 'Proveedor', 'Periodo', ' '];
+        $rows = [];
+
+        foreach($enlaces as $enlace){
+            $row['color'] = '#DDEDEE';
+            $row['campos'] = ['<a href="'.$enlace->ruta.'" target="_blank" style="color: blue; font-weight: bold">Entrar</a>', $enlace['evaluacion']->area->nombre, $enlace['evaluacion']->encuesta->proveedor->razo_social, $enlace['evaluacion']->encuesta->periodo->fecha_inicio.' al '.$enlace['evaluacion']->encuesta->periodo->fecha_fin];
+            $row['acciones'] = [
+                []
+            ];
+
+            array_push($rows, $row);
+        }
+
+        return Inertia::render('Enlaces', compact('usuario', 'titulos', 'rows'));
     }
 
     // Mensajes

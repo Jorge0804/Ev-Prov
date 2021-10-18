@@ -43,6 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta/{id_evaluacion}'
 Route::middleware(['auth:sanctum', 'verified'])->get('/Evaluaciones', [Controller::class, 'ViewEvaluaciones'])->name('evaluaciones');
 Route::middleware(['auth:sanctum', 'verified'])->get('/Evaluacion/{id_encuesta}', [Controller::class, 'ViewDetalles'])->name('detalles');
 Route::middleware(['auth:sanctum', 'verified'])->get('/EncuestasPropuestas', [Controller::class, 'ViewEncuestasPropuestas'])->name('encyprop');
+Route::middleware(['auth:sanctum', 'verified'])->get('/Enlaces', [Controller::class, 'ViewEnlaces'])->name('enlaces');
 
 //Mensajes
 Route::middleware(['auth:sanctum', 'verified'])->get('/Success', [Controller::class, 'MostrarExito'])->name('mostrarExito');
