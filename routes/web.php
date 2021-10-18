@@ -40,6 +40,9 @@ Route::get('/v1/Login/Encuesta/{id_evaluacion}/{id}/{token}', [Controller::class
 //Rutas para vistas
 Route::middleware(['auth:sanctum', 'verified'])->get('/', [Controller::class, 'ViewDashboard'])->name('dashboard');
 Route::middleware(['auth:sanctum', 'verified'])->get('/Encuesta/{id_evaluacion}', [Controller::class, 'ViewEncuesta'])->name('encuesta');
+Route::middleware(['auth:sanctum', 'verified'])->get('/Evaluaciones', [Controller::class, 'ViewEvaluaciones'])->name('evaluaciones');
+Route::middleware(['auth:sanctum', 'verified'])->get('/Evaluacion/{id_encuesta}', [Controller::class, 'ViewDetalles'])->name('detalles');
+Route::middleware(['auth:sanctum', 'verified'])->get('/EncuestasPropuestas', [Controller::class, 'ViewEncuestasPropuestas'])->name('encyprop');
 
 //Mensajes
 Route::middleware(['auth:sanctum', 'verified'])->get('/Success', [Controller::class, 'MostrarExito'])->name('mostrarExito');

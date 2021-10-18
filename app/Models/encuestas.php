@@ -19,4 +19,9 @@ class encuestas extends Model
     function proveedor(){
         return $this->hasOne(proveedores::class, 'id_proveedor', 'id_proveedor');
     }
+
+    function evaluaciones(){
+        return $this->hasMany(evaluaciones::class, 'id_encuesta', 'id_encuesta')->with('detalles');
+        //return $this->belongsToMany(encuestas::class,evaluaciones::class,'id_encuesta','id_encuesta');
+    }
 }

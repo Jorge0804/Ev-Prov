@@ -7,7 +7,7 @@
             <div style="display: flex; padding: 40px; flex-direction: column">
                 <ep-perfil :usuario="usuario"/>
                 <div style="margin-top: 60px">
-                    <ep-menu/>
+                    <ep-menu :usuario="usuario"/>
                 </div>
             </div>
         </div>

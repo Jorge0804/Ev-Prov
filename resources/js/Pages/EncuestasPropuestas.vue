@@ -1,11 +1,11 @@
 <template>
     <div class="h-screen" style="display: flex; font-family: Roboto">
-        <ep-sidebar/>
+        <ep-sidebar :usuario="usuario"/>
         <div style="flex: auto; display: flex; flex-direction: column; min-height: min-content; padding-left: 50px; padding-right: 50px; padding-top: 40px">
             <ep-card-titulo imagen="encyprov.png">
                 <template v-slot:titulo>Encuestas y Propuestas</template>
                 <template v-slot:descripcion>
-                    De acuerdo al servicio brindado como calificaría los siguientes criterios, donde 'excelente' es la puntuación más alta y 'deficiente' la más baja así como también estarán las propuestas de  mejora de cada proveedor.
+                    Apartado donde tendrá acceso a los temas mencionados.
                 </template>
             </ep-card-titulo>
             <div style="display: flex; flex: auto; margin-top: 20px; flex-direction: column; flex-wrap: wrap">
@@ -42,6 +42,9 @@ import EpCardTitulo from '../Componentes/Jorge/Cards/CardTitulo';
 import EpCardLarga from '../Componentes/Jorge/Cards/CardLarga';
 
 export default{
+    props:[
+        'usuario'
+    ],
     components:{
         EpSidebar,
         EpCardTitulo,

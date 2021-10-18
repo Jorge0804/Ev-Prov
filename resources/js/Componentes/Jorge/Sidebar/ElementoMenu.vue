@@ -1,5 +1,5 @@
 <template>
-    <Link @click="accion">
+    <Link @click="accion" v-if="menu.ver || (id == 1)">
         <button class="inline-flex items-center" style="font-size: 13px; font-weight: bold; line-height: 11px; margin-bottom: 30px">
             <i class="material-icons mr-3">
                 {{ menu.icono }}
@@ -17,7 +17,8 @@
             Link
         },
         props:[
-            'menu'
+            'menu',
+            'id'
         ],
         methods:{
             accion(){

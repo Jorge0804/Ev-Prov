@@ -8,7 +8,7 @@
                     Aquí están las última actualizaciones del sistema de evaluaciones para mantenerte al día.
                 </template>
             </ep-card-titulo>
-            <div style="display: flex; height: 60vh; margin-top: 20px; flex-direction: column">
+            <!--<div style="display: flex; height: 60vh; margin-top: 20px; flex-direction: column">
                 <ep-apartado>
                     Últimas actualizaciones
                 </ep-apartado>
@@ -31,7 +31,7 @@
                     </ep-card-grande>
                     <ep-card-doble/>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </template>

@@ -94,3 +94,7 @@ Route::get('/Evaluaciones', function (){
 Route::get('/Detalles', function (){
     return Models\detalles_evaluacion::with('evaluacion')->with('factor')->with('valor')->get();
 });
+
+    Route::get('/EvaluacionesProveedores', function (){
+    return Models\encuestas::with('proveedor')->with('evaluaciones')->get();
+});

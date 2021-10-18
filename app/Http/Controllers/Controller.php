@@ -18,10 +18,9 @@ class Controller extends BaseController
 
     function Jorge(){
         $usuario = Auth::user();
-        $factores = Models\factores::all();
-        $valores = Models\valores::all();
+        $proveedores = Models\encuestas::with('proveedor')->with('evaluaciones')->get();
 
-        return Inertia::render('Jorge', compact('usuario', 'factores', 'valores'));
+        return Inertia::render('Jorge', compact('usuario', 'proveedores'));
     }
 
     // Login
@@ -70,6 +69,61 @@ class Controller extends BaseController
                 return Inertia::render('Encuesta', compact('usuario', 'factores', 'valores', 'encuesta', 'area', 'id_evaluacion'));
             }
         }
+    }
+    function ViewEvaluaciones(){
+        $usuario = Auth::user();
+        $encuestas = Models\encuestas::with('proveedor')->with('evaluaciones')->get();
+
+        $titulos = ['Proveedor', 'Total evaluaciones', 'Pendientes', 'Finalizadas', 'Porcentaje actual', ' '];
+        $rows = [];
+
+        foreach ($encuestas as $encuesta){
+            $pendientes = 0;
+            $finalizadas = 0;
+            $sum_porcentaje = 0;
+            $total = count($encuesta->evaluaciones);
+            $porcentaje = 0;
+
+            if($total){
+                foreach($encuesta->evaluaciones as $evaluacion){
+                    if($evaluacion->status == 3){
+                        $finalizadas++;
+                    } else{
+                        $pendientes++;
+                    }
+
+                    $sum_porcentaje += ($evaluacion->resultado)?$evaluacion->resultado:0;
+                }
+                $porcentaje = ($sum_porcentaje/$total).'%';
+            }
+
+            $row['color'] = '#DDEDEE';
+            $row['campos'] = [$encuesta['proveedor']->razo_social, $total, $pendientes, $finalizadas, $porcentaje];
+            $row['acciones'] = [
+                [
+                    'icono' => 'visibility',
+                    'ruta' => 'detalles',
+                    'parametros' => ['id_encuesta' => $encuesta->id_encuesta]
+                ]
+            ];
+
+            array_push($rows, $row);
+        }
+
+        return Inertia::render('Evaluaciones', compact('usuario', 'titulos', 'rows'));
+    }
+    function ViewDetalles(Request $request){
+        $usuario = Auth::user();
+        $evaluaciones = Models\evaluaciones::with('area')->with('detalles')->where('id_encuesta', $request->id_encuesta)->get();
+        $encuesta = Models\encuestas::with('proveedor')->find($request->id_encuesta);
+        $proveedor = $encuesta->proveedor->razo_social;
+
+        return Inertia::render('DetallesEvaluacion', compact('usuario', 'proveedor', 'evaluaciones'));
+    }
+    function ViewEncuestasPropuestas(){
+        $usuario = Auth::user();
+
+        return Inertia::render('EncuestasPropuestas', compact('usuario'));
     }
 
     // Mensajes
